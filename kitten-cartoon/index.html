@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <!-- Адаптация под планшет Samsung Galaxy Tab S8 Ultra (2960×1848, 16:10) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#1b1838">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Рыжик в волшебном лесу</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="stage">
+    <!-- Вся сцена — один SVG в пропорции 16:10, как экран Tab S8 Ultra -->
+    <svg id="scene" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice"
+         xmlns="http://www.w3.org/2000/svg" aria-label="Мультфильм: рыжий котёнок гуляет по волшебному лесу" role="img">
+      <defs>
+        <!-- Небо в сумерках -->
+        <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#1f1c4d"/>
+          <stop offset="0.45" stop-color="#5b4a9b"/>
+          <stop offset="0.75" stop-color="#d98aa6"/>
+          <stop offset="1" stop-color="#ffc58f"/>
+        </linearGradient>
+        <radialGradient id="gSun" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="#fff6d8" stop-opacity="1"/>
+          <stop offset="0.25" stop-color="#ffe3a3" stop-opacity="0.9"/>
+          <stop offset="1" stop-color="#ffb37a" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="gRay" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fff3c4" stop-opacity="0.55"/>
+          <stop offset="1" stop-color="#fff3c4" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="gGround" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#4f9a5a"/>
+          <stop offset="0.25" stop-color="#2f6e47"/>
+          <stop offset="1" stop-color="#173a2c"/>
+        </linearGradient>
+        <linearGradient id="gHillFar" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#7a6bb5"/>
+          <stop offset="1" stop-color="#4c3f86"/>
+        </linearGradient>
+        <linearGradient id="gHillMid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#3f7f6a"/>
+          <stop offset="1" stop-color="#244c46"/>
+        </linearGradient>
+        <!-- Шёрстка котёнка -->
+        <linearGradient id="gFur" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ffab4a"/>
+          <stop offset="0.6" stop-color="#f28a2e"/>
+          <stop offset="1" stop-color="#e0711f"/>
+        </linearGradient>
+        <linearGradient id="gFurDark" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#e27d2c"/>
+          <stop offset="1" stop-color="#c25f1a"/>
+        </linearGradient>
+        <radialGradient id="gHead" cx="0.4" cy="0.35" r="0.7">
+          <stop offset="0" stop-color="#ffbe68"/>
+          <stop offset="0.7" stop-color="#f58f33"/>
+          <stop offset="1" stop-color="#e2731f"/>
+        </radialGradient>
+        <radialGradient id="gIris" cx="0.5" cy="0.6" r="0.6">
+          <stop offset="0" stop-color="#c9f27a"/>
+          <stop offset="0.6" stop-color="#5fbf4a"/>
+          <stop offset="1" stop-color="#2f7d34"/>
+        </radialGradient>
+        <radialGradient id="gGlow" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="#fffbd0" stop-opacity="1"/>
+          <stop offset="0.3" stop-color="#f4ff8a" stop-opacity="0.8"/>
+          <stop offset="1" stop-color="#c8ff6a" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="gMushGlow" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="#8ff3ff" stop-opacity="0.75"/>
+          <stop offset="1" stop-color="#5ad6ff" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="gVignette" cx="0.5" cy="0.5" r="0.75">
+          <stop offset="0.6" stop-color="#000" stop-opacity="0"/>
+          <stop offset="1" stop-color="#0b0820" stop-opacity="0.6"/>
+        </radialGradient>
+        <filter id="fBlur" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="18"/>
+        </filter>
+        <filter id="fSoft" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3"/>
+        </filter>
+        <!-- Шаблон листочка -->
+        <symbol id="leaf" viewBox="-20 -20 40 40" overflow="visible">
+          <path d="M0,-18 C12,-12 14,6 0,18 C-14,6 -12,-12 0,-18 Z"/>
+          <path d="M0,-16 L0,18" stroke="rgba(0,0,0,0.25)" stroke-width="1.6" fill="none"/>
+        </symbol>
+      </defs>
+
+      <!-- ===== ФОН ===== -->
+      <rect width="1600" height="1000" fill="url(#gSky)"/>
+      <g id="stars"></g>
+      <circle id="sun" cx="1050" cy="560" r="330" fill="url(#gSun)"/>
+      <g id="layerHills"></g>
+      <g id="layerFar"></g>
+      <g id="rays" filter="url(#fBlur)"></g>
+      <g id="layerMid"></g>
+      <g id="layerGround"></g>
+
+      <!-- ===== КОТЁНОК ===== -->
+      <g id="kitten">
+        <ellipse id="kShadow" cx="5" cy="2" rx="100" ry="13" fill="#0d2418" opacity="0.35"/>
+        <g id="kBody">
+          <!-- хвост -->
+          <g id="kTail">
+            <path d="M-62,-86 C-105,-92 -140,-130 -128,-182 C-124,-200 -104,-206 -100,-190
+                     C-112,-150 -95,-112 -55,-100 Z" fill="url(#gFur)" stroke="#c9631c" stroke-width="2"/>
+            <path d="M-121,-160 C-118,-150 -112,-142 -104,-136" stroke="#c9631c" stroke-width="7" fill="none" stroke-linecap="round"/>
+            <path d="M-125,-182 C-122,-190 -112,-194 -104,-188" stroke="#fff1de" stroke-width="9" fill="none" stroke-linecap="round"/>
+          </g>
+          <!-- дальние лапки -->
+          <g id="legBF" class="leg far"><path d="M-14,0 L-12,50 Q0,60 12,50 L14,0 Z" fill="url(#gFurDark)"/><ellipse cx="3" cy="55" rx="16" ry="9" fill="#f3dcc4"/></g>
+          <g id="legFF" class="leg far"><path d="M-13,0 L-11,50 Q0,60 11,50 L13,0 Z" fill="url(#gFurDark)"/><ellipse cx="3" cy="55" rx="15" ry="9" fill="#f3dcc4"/></g>
+          <!-- туловище -->
+          <ellipse cx="5" cy="-82" rx="80" ry="44" fill="url(#gFur)" stroke="#d26a1e" stroke-width="2"/>
+          <ellipse cx="18" cy="-58" rx="52" ry="18" fill="#ffe2c2" opacity="0.85"/>
+          <path d="M-30,-123 Q-20,-100 -34,-82" stroke="#d0661c" stroke-width="8" fill="none" stroke-linecap="round"/>
+          <path d="M-5,-126 Q4,-104 -8,-86" stroke="#d0661c" stroke-width="8" fill="none" stroke-linecap="round"/>
+          <path d="M20,-125 Q28,-106 18,-92" stroke="#d0661c" stroke-width="7" fill="none" stroke-linecap="round"/>
+          <path d="M-55,-112 Q-48,-95 -60,-80" stroke="#d0661c" stroke-width="7" fill="none" stroke-linecap="round"/>
+          <!-- ближние лапки -->
+          <g id="legBN" class="leg"><path d="M-15,0 L-12,50 Q0,60 12,50 L15,0 Z" fill="url(#gFur)"/><ellipse cx="3" cy="55" rx="17" ry="10" fill="#fff1de"/><path d="M-4,58 L-4,63 M4,58 L4,64 M12,57 L12,62" stroke="#e0b99a" stroke-width="2"/></g>
+          <g id="legFN" class="leg"><path d="M-14,0 L-11,50 Q0,60 11,50 L14,0 Z" fill="url(#gFur)"/><ellipse cx="3" cy="55" rx="16" ry="10" fill="#fff1de"/><path d="M-4,58 L-4,63 M4,58 L4,64 M12,57 L12,62" stroke="#e0b99a" stroke-width="2"/></g>
+
+          <!-- голова -->
+          <g id="kHead">
+            <!-- уши -->
+            <g id="earBack">
+              <path d="M-42,-22 L-36,-88 L-2,-46 Z" fill="#e8792a" stroke="#c9631c" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M-34,-32 L-32,-72 L-12,-46 Z" fill="#ffb3b8"/>
+            </g>
+            <g id="earFront">
+              <path d="M8,-48 L42,-90 L50,-20 Z" fill="#f58f33" stroke="#c9631c" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M18,-46 L39,-74 L42,-34 Z" fill="#ffb3b8"/>
+            </g>
+            <!-- голова-шарик -->
+            <ellipse cx="0" cy="0" rx="58" ry="52" fill="url(#gHead)" stroke="#c9631c" stroke-width="2"/>
+            <!-- щёчки-пушок -->
+            <path d="M-56,10 L-70,18 L-54,22 L-66,32 L-46,30" fill="#f58f33" stroke="#c9631c" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M-12,-50 Q-8,-36 -14,-26 M4,-52 Q6,-38 2,-28 M20,-48 Q18,-38 16,-30" stroke="#d0661c" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <!-- мордочка -->
+            <ellipse cx="22" cy="22" rx="30" ry="20" fill="#fff1de"/>
+            <ellipse cx="-22" cy="22" rx="12" ry="7" fill="#ff8fa0" opacity="0.55"/>
+            <ellipse cx="50" cy="20" rx="8" ry="6" fill="#ff8fa0" opacity="0.5"/>
+            <!-- глаза -->
+            <g id="eyeBack">
+              <ellipse cx="-4" cy="-4" rx="13" ry="16" fill="#fff"/>
+              <ellipse class="iris" cx="-2" cy="-2" rx="10" ry="13" fill="url(#gIris)"/>
+              <ellipse class="pupil" cx="-1" cy="-1" rx="5" ry="9" fill="#13131f"/>
+              <circle class="shine" cx="2" cy="-7" r="4" fill="#fff"/>
+              <circle class="shine" cx="-5" cy="4" r="2" fill="#fff" opacity="0.8"/>
+            </g>
+            <g id="eyeFront">
+              <ellipse cx="32" cy="-4" rx="13" ry="16" fill="#fff"/>
+              <ellipse class="iris" cx="34" cy="-2" rx="10" ry="13" fill="url(#gIris)"/>
+              <ellipse class="pupil" cx="35" cy="-1" rx="5" ry="9" fill="#13131f"/>
+              <circle class="shine" cx="38" cy="-7" r="4" fill="#fff"/>
+              <circle class="shine" cx="31" cy="4" r="2" fill="#fff" opacity="0.8"/>
+            </g>
+            <!-- носик и рот -->
+            <path d="M24,12 L34,12 L29,19 Z" fill="#ff7c93" stroke="#d65a74" stroke-width="1.5" stroke-linejoin="round"/>
+            <path id="mouthClosed" d="M29,19 Q29,26 21,27 M29,19 Q30,26 38,26" stroke="#7a3b2a" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+            <g id="mouthOpen" opacity="0">
+              <path d="M21,24 Q29,42 38,24 Q29,28 21,24 Z" fill="#9b2f3f" stroke="#7a3b2a" stroke-width="2"/>
+              <ellipse cx="29" cy="33" rx="5" ry="3.5" fill="#ff8fa0"/>
+            </g>
+            <!-- усики -->
+            <g stroke="#fff8ef" stroke-width="2" stroke-linecap="round" opacity="0.9" id="whiskers">
+              <path d="M40,20 Q62,14 82,12" fill="none"/>
+              <path d="M41,25 Q64,25 84,28" fill="none"/>
+              <path d="M40,30 Q60,35 78,42" fill="none"/>
+              <path d="M8,22 Q-10,18 -24,18" fill="none"/>
+            </g>
+          </g>
+        </g>
+        <!-- облачко «Мяу!» -->
+        <g id="bubble" opacity="0">
+          <path d="M150,-300 h150 a30,30 0 0 1 30,30 v40 a30,30 0 0 1 -30,30 h-110 l-30,30 l6,-30 h-16 a30,30 0 0 1 -30,-30 v-40 a30,30 0 0 1 30,-30 Z"
+                fill="#fffaf0" stroke="#e5a36a" stroke-width="3"/>
+          <text x="225" y="-236" text-anchor="middle" class="bubble-text">Мяу!</text>
+        </g>
+      </g>
+
+      <!-- бабочка -->
+      <g id="butterfly" opacity="0">
+        <g id="bfWings">
+          <path d="M0,0 C-10,-34 -40,-36 -36,-12 C-34,0 -14,4 0,0 Z" fill="#7fd6ff" stroke="#3a7bd5" stroke-width="2"/>
+          <path d="M0,0 C-8,18 -30,24 -28,8 C-26,0 -12,0 0,0 Z" fill="#b48cff" stroke="#3a7bd5" stroke-width="2"/>
+          <path d="M0,0 C10,-34 40,-36 36,-12 C34,0 14,4 0,0 Z" fill="#7fd6ff" stroke="#3a7bd5" stroke-width="2"/>
+          <path d="M0,0 C8,18 30,24 28,8 C26,0 12,0 0,0 Z" fill="#b48cff" stroke="#3a7bd5" stroke-width="2"/>
+          <circle cx="-22" cy="-16" r="4" fill="#fff" opacity="0.8"/>
+          <circle cx="22" cy="-16" r="4" fill="#fff" opacity="0.8"/>
+        </g>
+        <ellipse cx="0" cy="0" rx="3.5" ry="12" fill="#2a2347"/>
+        <path d="M-1,-11 Q-6,-22 -10,-24 M1,-11 Q6,-22 10,-24" stroke="#2a2347" stroke-width="1.6" fill="none"/>
+        <circle cx="0" cy="0" r="40" fill="url(#gGlow)" opacity="0.25"/>
+      </g>
+
+      <!-- ===== ПЕРЕДНИЙ ПЛАН ===== -->
+      <g id="fireflies"></g>
+      <g id="leaves"></g>
+      <g id="layerFront"></g>
+      <rect width="1600" height="1000" fill="url(#gVignette)" pointer-events="none"/>
+
+      <!-- титры -->
+      <g id="title" opacity="0">
+        <text x="800" y="330" text-anchor="middle" class="title-main">Рыжик</text>
+        <text x="800" y="410" text-anchor="middle" class="title-sub">в волшебном лесу</text>
+      </g>
+      <g id="theEnd" opacity="0">
+        <text x="800" y="300" text-anchor="middle" class="title-main">Конец</text>
+      </g>
+      <!-- затемнение для плавного начала -->
+      <rect id="fade" width="1600" height="1000" fill="#0b0820" opacity="1" pointer-events="none"/>
+    </svg>
+
+    <!-- Подсказка для портретной ориентации -->
+    <div id="rotateHint" aria-hidden="true">
+      <div class="rotate-icon">⟳</div>
+      <p>Поверните планшет горизонтально<br>для лучшего просмотра</p>
+    </div>
+
+    <!-- Финальный экран -->
+    <div id="endOverlay" class="hidden">
+      <button id="replayBig" class="big-btn" type="button">
+        <span class="big-btn-icon">↻</span> Смотреть ещё раз
+      </button>
+    </div>
+
+    <!-- Панель управления -->
+    <div id="controls">
+      <button id="btnPlay" class="ctl" type="button" aria-label="Пауза">❚❚</button>
+      <button id="btnReplay" class="ctl" type="button" aria-label="Сначала">↻</button>
+      <div id="progress"><div id="progressFill"></div></div>
+      <span id="time">0:00 / 0:20</span>
+      <button id="btnFull" class="ctl" type="button" aria-label="Во весь экран">⛶</button>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
