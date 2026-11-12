@@ -611,7 +611,7 @@
   const svg = $("scene");
   function fitOrientation() {
     const portrait = window.innerHeight > window.innerWidth;
-    svg.setAttribute("preserveAspectRatio", portrait ? "xMidYMid meet" : "xMidYMid slice");
+    svg.setAttribute("preserveAspectRatio", portrait ? "xMidYMid meet" : "xMidYMax slice");
   }
   window.addEventListener("resize", fitOrientation);
   fitOrientation();

@@ -16,7 +16,7 @@
 <body>
   <main id="stage">
     <!-- Вся сцена — один SVG в пропорции 16:10, как экран Tab S8 Ultra -->
-    <svg id="scene" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice"
+    <svg id="scene" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMax slice"
          xmlns="http://www.w3.org/2000/svg" aria-label="Мультфильм: рыжий котёнок гуляет по волшебному лесу" role="img">
       <defs>
         <!-- Небо в сумерках -->
@@ -211,11 +211,11 @@
 
       <!-- титры -->
       <g id="title" opacity="0">
-        <text x="800" y="330" text-anchor="middle" class="title-main">Рыжик</text>
-        <text x="800" y="410" text-anchor="middle" class="title-sub">в волшебном лесу</text>
+        <text x="800" y="380" text-anchor="middle" class="title-main">Рыжик</text>
+        <text x="800" y="460" text-anchor="middle" class="title-sub">в волшебном лесу</text>
       </g>
       <g id="theEnd" opacity="0">
-        <text x="800" y="300" text-anchor="middle" class="title-main">Конец</text>
+        <text x="800" y="370" text-anchor="middle" class="title-main">Конец</text>
       </g>
       <!-- затемнение для плавного начала -->
       <rect id="fade" width="1600" height="1000" fill="#0b0820" opacity="1" pointer-events="none"/>
