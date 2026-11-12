@@ -151,6 +151,29 @@ body {
   opacity: 0.9;
 }
 
+/* ---------- Подсказка про звук ---------- */
+#soundHint {
+  position: absolute;
+  top: max(20px, env(safe-area-inset-top));
+  right: max(20px, env(safe-area-inset-right));
+  padding: 14px 24px;
+  border-radius: 999px;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-size: 20px;
+  z-index: 6;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+  animation: hintGlow 2s ease-in-out infinite;
+}
+#soundHint.hidden { opacity: 0; animation: none; }
+@keyframes hintGlow {
+  0%, 100% { box-shadow: 0 0 0 rgba(255, 200, 120, 0); }
+  50%      { box-shadow: 0 0 24px rgba(255, 200, 120, 0.6); }
+}
+
 /* ---------- Финальный экран ---------- */
 #endOverlay {
   position: absolute;

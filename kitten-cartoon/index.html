@@ -227,6 +227,9 @@
       <p>Поверните планшет горизонтально<br>для лучшего просмотра</p>
     </div>
 
+    <!-- Подсказка про звук (браузер включает музыку только после касания) -->
+    <div id="soundHint" class="hidden">🎵 Коснитесь экрана — включится музыка</div>
+
     <!-- Финальный экран -->
     <div id="endOverlay" class="hidden">
       <button id="replayBig" class="big-btn" type="button">
@@ -240,10 +243,12 @@
       <button id="btnReplay" class="ctl" type="button" aria-label="Сначала">↻</button>
       <div id="progress"><div id="progressFill"></div></div>
       <span id="time">0:00 / 0:20</span>
+      <button id="btnSound" class="ctl" type="button" aria-label="Включить музыку">🔇</button>
       <button id="btnFull" class="ctl" type="button" aria-label="Во весь экран">⛶</button>
     </div>
   </main>
 
+  <script src="music.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

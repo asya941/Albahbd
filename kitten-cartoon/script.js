@@ -494,13 +494,17 @@
     play: $("btnPlay"), replay: $("btnReplay"), full: $("btnFull"),
     fill: $("progressFill"), bar: $("progress"), time: $("time"),
     end: $("endOverlay"), replayBig: $("replayBig"), controls: $("controls"),
+    sound: $("btnSound"), hint: $("soundHint"),
   };
+  const music = window.KittenMusic;
 
   let storyT = 0;        // время сюжета
   let ambientT = 0;      // время для «живого» фона
   let playing = true;
   let last = null;
   let finished = false;
+  let soundOn = false;     // музыка включена
+  let userMuted = false;   // пользователь сам выключил звук
 
   const fmt = (s) => `0:${String(Math.floor(s)).padStart(2, "0")}`;
 
@@ -511,7 +515,9 @@
     if (playing) {
       ambientT += dt;
       if (!finished) {
-        storyT += dt;
+        // со звуком время берём из аудиочасов — картинка и музыка идут точно вместе
+        if (soundOn && music.isRunning()) storyT = Math.max(storyT, music.storyNow());
+        else storyT += dt;
         if (storyT >= DURATION) {
           storyT = DURATION;
           finished = true;
@@ -530,14 +536,54 @@
     playing = v;
     ui.play.textContent = v ? "❚❚" : "▶";
     ui.play.setAttribute("aria-label", v ? "Пауза" : "Играть");
+    if (soundOn) { if (v) music.resume(); else music.pause(); }
     showControls();
   }
+
+  // ---------- Звук ----------
+  function updateSoundUI() {
+    ui.sound.textContent = soundOn ? "🔊" : "🔇";
+    ui.sound.setAttribute("aria-label", soundOn ? "Выключить музыку" : "Включить музыку");
+    ui.hint.classList.toggle("hidden", soundOn || userMuted);
+  }
+  function enableSound() {
+    if (!music) return;
+    music.unlock().then((ok) => {
+      if (!ok || soundOn) return;
+      soundOn = true;
+      userMuted = false;
+      if (!finished) music.startFrom(storyT); else music.stop();
+      if (!playing) music.pause();
+      updateSoundUI();
+    });
+  }
+  function disableSound() {
+    soundOn = false;
+    userMuted = true;
+    if (music) { music.stop(); music.pause(); }
+    updateSoundUI();
+  }
+  ui.sound.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (soundOn) disableSound(); else enableSound();
+  });
+  // Браузеры разрешают звук только после касания — включаем музыку при первом же тапе
+  let consumeTap = false;
+  function firstGesture(e) {
+    if (soundOn || userMuted) return;
+    const onButton = e.target && e.target.closest && e.target.closest("button, #controls");
+    if (!onButton) consumeTap = true;   // первый тап по сцене — только включает звук
+    enableSound();
+  }
+  document.addEventListener("click", firstGesture, true);
+  document.addEventListener("keydown", (e) => { if (e.code !== "Space") firstGesture(e); }, true);
 
   function replay() {
     storyT = 0;
     ambientT = 0;
     finished = false;
     ui.end.classList.add("hidden");
+    if (soundOn) music.startFrom(0);
     setPlaying(true);
   }
 
@@ -554,6 +600,10 @@
     storyT = clamp((e.clientX - r.left) / r.width, 0, 1) * DURATION;
     finished = storyT >= DURATION;
     ui.end.classList.toggle("hidden", !finished);
+    if (soundOn) {
+      if (finished) music.stop(); else music.startFrom(storyT);
+      if (!playing) music.pause();
+    }
   });
 
   // Полноэкранный режим — на планшете смотрится лучше всего
@@ -579,13 +629,19 @@
 
   // Тап по сцене — пауза/продолжение
   $("stage").addEventListener("click", () => {
+    if (consumeTap) { consumeTap = false; return; }
     if (finished) { showControls(); return; }
     setPlaying(!playing);
   });
 
   // Клавиатура: пробел — пауза, R — повтор, F — полный экран
   document.addEventListener("keydown", (e) => {
-    if (e.code === "Space") { e.preventDefault(); finished ? replay() : setPlaying(!playing); }
+    if (e.code === "Space") {
+      e.preventDefault();
+      if (!soundOn && !userMuted) enableSound();
+      finished ? replay() : setPlaying(!playing);
+    }
+    else if (e.key === "m" || e.key === "M" || e.key === "ь" || e.key === "Ь") ui.sound.click();
     else if (e.key === "r" || e.key === "R" || e.key === "к" || e.key === "К") replay();
     else if (e.key === "f" || e.key === "F" || e.key === "а" || e.key === "А") ui.full.click();
   });
@@ -617,6 +673,7 @@
   fitOrientation();
 
   // Старт автоматически (после загрузки шрифта, но не дольше 1.5 c ожидания)
+  updateSoundUI();
   render(storyT, ambientT);
   const start = () => { showControls(); requestAnimationFrame(frame); };
   if (document.fonts && document.fonts.ready) {
